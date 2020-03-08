@@ -24,3 +24,4 @@ np_array = np.array(data)
 
 
 print(np_array)
+#rudri was here
