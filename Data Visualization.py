@@ -5,12 +5,10 @@
 
 
 import pandas as pd
-import numpy as np
 from matplotlib import pyplot as plt
 import seaborn as sns
-import folium
-import os
-get_ipython().run_line_magic('matplotlib', 'inline')
+
+#get_ipython().run_line_magic('matplotlib', 'inline')
 
 
 # In[84]:
@@ -125,11 +123,12 @@ sns.set_color_codes("muted")
 sns.barplot(x="Country, Other", y="Total Recovered", data=new_data, label="Recovery", color="pink")
 
 # Add a legend and informative axis label
-ax.legend(ncol=, loc="lower right", frameon=True)
+ax.legend(loc="lower right", frameon=True)
 ax.set(xlim=(0, 24), ylabel="",
        xlabel="deaths")
 sns.despine(left=True, bottom=True)
 
+plt.show(block=True)
 
 # In[ ]:
 
