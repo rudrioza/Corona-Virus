@@ -3,6 +3,7 @@ import matplotlib.pyplot as plt
 import csv
 from sklearn.linear_model import LinearRegression
 from sklearn.metrics import mean_squared_error, r2_score
+from sklearn.preprocessing import PolynomialFeatures
 
 
 #1 is for a shelter in place law
@@ -15,8 +16,6 @@ Germany_CSV = 'Germany.csv'
 USA_CSV = 'USA.csv'
 Italy_CSV = 'Italy.csv'
 Spain_CSV = 'Spain.csv'
-Italy_Corona_Virus_Test = 'ItalyCoronaVirusTest.csv'
-US_Corona_Virus_Test = 'USACoronaVirusTest.csv'
 
 x = []
 y = []
@@ -26,7 +25,7 @@ newDeathPercentage = 0
 
 #run whichever file you need to run here
 
-with open(Italy_Corona_Virus_Test,'r') as csvfile:
+with open(Germany_CSV,'r') as csvfile:
     plots = csv.reader(csvfile, delimiter=',')
     for row in plots:
         if(count != 0 and row != []):
@@ -56,6 +55,8 @@ for i in range(trainingLength):
     trainingSetX.append([x[i]])
 trainingSetX = np.asarray(trainingSetX)
 
+polyFeatures = PolynomialFeatures(degree=2)
+trainingSetPolyX = polyFeatures.fit_transform(trainingSetX)
 
 for i in range(trainingLength):
     trainingSetY.append([y[i]])
@@ -65,9 +66,12 @@ for i in range(len(x) - trainingLength):
     testSetX.append([x[trainingLength + i]])
 testSetX = np.asarray(testSetX)
 
-regression_model.fit(trainingSetX, trainingSetY)
 
-y_predicted = regression_model.predict(trainingSetX)
+regression_model.fit(trainingSetPolyX, trainingSetY)
+
+
+
+y_predicted = regression_model.predict(trainingSetPolyX)
 
 
 
@@ -80,11 +84,11 @@ print("r2", r2)
 # data points
 plt.scatter(trainingSetX, trainingSetY, s=10)
 plt.xlabel('Time')
-plt.ylabel('Total Test Kits')
+plt.ylabel('Total Deaths')
 
 
 # predicted values
-plt.title('Predicting Test Kits')
+plt.title('Predicting Deaths')
 plt.plot(trainingSetX, y_predicted, color='r')
 plt.show()
 
